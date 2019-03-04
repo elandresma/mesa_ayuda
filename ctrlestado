@@ -1,0 +1,109 @@
+<?php
+
+class CtrlEstado{
+	var $objClsEstado;
+	var $msg;
+	
+
+	function CtrlEstado($objClsEstado){
+		$this->objClsEstado=$objClsEstado;
+	}
+	
+	function Guardar(){
+
+	try{
+		$idEstado=$this->objClsEstado->getIdArea();
+		$nombre=$this->objClsEstado->getNombre();
+		
+		
+
+		$objCon = new Conexion();//instancia clase conexion
+
+		$comSql="INSERT INTO ESTADO VALUES(".$idEstado.",'".$nombre."')";
+
+        $enl=$objCon->conectar("localhost","MESA_AYUDA","root","");//enviar un mensaje, ejectar un metodo
+        $objCon->ejecutarSql("MESA_AYUDA",$comSql);
+		$objCon->cerrar($enl);
+
+		$msg = "Se guardo correctamente el registro!";
+	} catch (Exception $e) {
+		$msg = $e->getMessage();
+	}	
+	return $msg;
+	}
+
+	function Actualizar(){
+	try{	
+		$idEstado=$this->objClsEstado->getIdEstado();
+		$nombre=$this->objClsEstado->getNombre();
+		
+
+		$objCon = new Conexion();//instancia clase conexion
+
+		$comSql="UPDATE ESTADO SET NOMBRE ='".$nombre."' WHERE IDESTADO=".$idEstado;
+
+		$enl=$objCon->conectar("localhost","MESA_AYUDA","root","");//enviar un mensaje, ejectar un metodo
+        $objCon->ejecutarSql("MESA_AYUDA",$comSql);
+		$objCon->cerrar($enl);
+		$msg = "Se actualizo correctamente el registro!";
+	} catch (Exception $e) {
+		$msg = $e->getMessage();
+	}	
+
+	return $msg;
+	
+	}
+
+
+
+	function Eliminar(){
+	
+	try{
+		$idEstado=$this->objClsEstado->getIdEstado();
+
+		$objCon = new Conexion();//instancia clase conexion
+
+		$comSql="DELETE FROM ESTADO  WHERE IDESTADO=".$idEstado;
+
+		$enl=$objCon->conectar("localhost","MESA_AYUDA","root","");//enviar un mensaje, ejectar un metodo
+        $objCon->ejecutarSql("MESA_AYUDA",$comSql);
+		$objCon->cerrar($enl);
+
+		$msg = "Se Elimino el registro!";
+	} catch (Exception $e) {
+		$msg = $e->getMessage();
+	}	
+	 
+	return $msg;
+	}
+
+	function Consultar(){
+		$idEstado=$this->objClsEstado->getIdEstado();
+		$objCon = new Conexion();
+
+		$comSql="SELECT * FROM ESTADO WHERE IDESTADO='$idEstado'";
+
+        
+		
+		$enl=$objCon->conectar("localhost","MESA_AYUDA","root","");//enviar un mensaje, ejectar un metodo
+        $recorSet=$objCon->ejecutarSql("MESA_AYUDA",$comSql);
+
+		if($recorSet){
+		$fila= mysql_fetch_array($recorSet);
+
+		$nombre= $fila[1];
+	
+
+		$this->objClsEstado->setNombre($nombre);
+		
+		}
+
+		$objCon->cerrar($enl);
+		
+		return $objClsEstado;
+	}
+
+	
+
+}
+?>
