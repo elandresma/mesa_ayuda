@@ -1,0 +1,96 @@
+<?php
+include ("../Control/CtrConexion.php");
+include ("../Control/CtrlEstado.php");
+include ("../Modelo/ClsEstado.php");
+
+$idEstado = $_POST["txtIdEstado"];//Así se declara variables en php, y de este modo recuperar los datos
+$nombre = $_POST["txtNombre"];
+$msg = "";
+
+if($bot=="Guardar"){
+
+$objClsEstado = new ClsEstado($idEstado, $nombre);
+$objCtrlEstado = new CtrlEstado($objClsEstado);
+
+$msg = $objCtrlEstado->Guardar();
+$idEstado = "";
+$nombre = "";
+
+}
+
+if($bot=="Modificar"){
+
+    $objClsEstado = new ClsEstado($idEstado,$nombre);
+    $objCtrlEstado= new CtrlEstado($objClsEstado);
+
+    $msg = $objCtrlEstado->Actualizar();     
+}
+
+if($bot=="Eliminar"){
+
+    $objClsEstado = new  ClsEstado($idEstado ,"",0);
+    $objCtrlEstado= new CtrlEstado($objClsEstado);
+    
+    $msg = $objCtrlEstado->Eliminar();
+
+    $idEstado = "";
+    $nombre = "";
+   
+
+}
+
+
+$objClsEstado = new  ClsEstado($idEstado,"",0);
+$objCtrlEstado= new CtrlEstado($objClsEstado);
+
+
+
+if($bot=="Consultar"){
+
+
+$objCtrlEstado->Consultar();
+
+ $idEstado = $objClsEstado->getIdEstado();
+ $nombre = $objClsEstado->getNombre();
+ 
+
+}
+
+echo"<!DOCTYPE html>
+<html lang=\"en\" dir=\"ltr\">
+  <head>
+    <meta charset=\"utf-8\">
+    <title>Formulario Cliente</title>
+  </head>
+
+<body>
+<form class=\"frmCliente\" action=\"VistaEstado.php\" method=\"post\">
+
+<table>
+  <tr>
+  <td>Datos Del Estado</td>
+  <br>
+  </tr>
+  <tr>
+    <td>Id Estado:</td><td><input type=\"text\" name=\"txtIdEstado\" value=\"".$idEstado."\"></td>
+  </tr>
+  <tr>
+    <td>Nombre:</td><td><input type=\"text\" name=\"txtNombre\"  value=\"".$nombre."\"></td>
+  </tr>
+  
+</table>
+<br/>
+<table>
+  <tr>
+   <td><input type=\"submit\" name=\"btn\" value=\"Guardar\"></td>
+   <td><input type=\"submit\" name=\"btn\" value=\"Consultar\"></td>
+  <td><input type=\"submit\" name=\"btn\" value=\"Modificar\"></td>
+  <td><input type=\"submit\" name=\"btn\" value=\"Eliminar\"></td>
+  </tr>
+</table>
+<h3>$msg</h3>
+</form>
+  </body>
+</html>";
+
+?>
