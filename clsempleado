@@ -1,0 +1,35 @@
+<?php
+
+class ClsEmpleado{
+
+var $idEmpleado;
+var $nombre;
+
+
+function ClsEmpleado($idEmpleado,$nombre){
+  $this->idEmpleado = $iEmpleado;
+  $this->nombre = $nombre;
+  
+}
+
+
+function  getIdEmpleado() {
+  return $this->idEmpleado;
+}
+
+function setIdEmpleado($idEmpleado) {
+  $this->idEmpleado = $idEmpleado;
+}
+
+
+function getNombre() {
+  return $this->nombre;
+}
+
+function setNombre($nombre) {
+  $this->nombre = $nombre;
+}
+
+
+}
+?>
